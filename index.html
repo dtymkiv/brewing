@@ -12,13 +12,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /*height: 100vh;*/
             background-color: #f4f4f4;
         }
 
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         .container {
-            width: 500px;
-            padding: 20px;
+            width: 450px;
+            padding: 5px;
             background-color: #fff;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
@@ -32,7 +44,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
+            grid-gap: 5px;
         }
 
         .grid-item {
@@ -53,13 +65,13 @@
         }
 
         .input-group input {
-            width: 40px;
+            width: 20px;
             text-align: center;
         }
 
         .input-group button {
             margin: 0 5px;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -125,72 +137,73 @@
         .output p {
             margin: 5px 0;
         }
+
         .element {
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    background-color: #f9f9f9;
-}
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+        }
 
-/* Styling Fire elements */
-.element.fire {
-    border-color: #e57373; /* Light Red border */
-    background-color: #ffebee;
-}
+        /* Styling Fire elements */
+        .element.fire {
+            border-color: #e57373; /* Light Red border */
+            background-color: #ffebee;
+        }
 
-.element.fire label {
-    color: #d32f2f; /* Darker red for text */
-}
+        .element.fire label {
+            color: #d32f2f; /* Darker red for text */
+        }
 
-.element.fire input {
-    color: #d32f2f;
-    border: 1px solid #d32f2f;
-}
+        .element.fire input {
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+        }
 
-/* Styling Water elements */
-.element.water {
-    border-color: #64b5f6; /* Light Blue border */
-    background-color: #e3f2fd;
-}
+        /* Styling Water elements */
+        .element.water {
+            border-color: #64b5f6; /* Light Blue border */
+            background-color: #e3f2fd;
+        }
 
-.element.water label {
-    color: #1976d2; /* Darker blue for text */
-}
+        .element.water label {
+            color: #1976d2; /* Darker blue for text */
+        }
 
-.element.water input {
-    color: #1976d2;
-    border: 1px solid #1976d2;
-}
+        .element.water input {
+            color: #1976d2;
+            border: 1px solid #1976d2;
+        }
 
-/* Styling Green elements */
-.element.green {
-    border-color: #81c784; /* Light Green border */
-    background-color: #e8f5e9;
-}
+        /* Styling Green elements */
+        .element.green {
+            border-color: #81c784; /* Light Green border */
+            background-color: #e8f5e9;
+        }
 
-.element.green label {
-    color: #388e3c; /* Darker green for text */
-}
+        .element.green label {
+            color: #388e3c; /* Darker green for text */
+        }
 
-.element.green input {
-    color: #388e3c;
-    border: 1px solid #388e3c;
-}
+        .element.green input {
+            color: #388e3c;
+            border: 1px solid #388e3c;
+        }
 
-/* Styling Stardust elements */
-.element.stardust {
-    border-color: #ba68c8; /* Light Purple border */
-    background-color: #f3e5f5;
-}
+        /* Styling Stardust elements */
+        .element.stardust {
+            border-color: #ba68c8; /* Light Purple border */
+            background-color: #f3e5f5;
+        }
 
-.element.stardust label {
-    color: #8e24aa; /* Darker purple for text */
-}
+        .element.stardust label {
+            color: #8e24aa; /* Darker purple for text */
+        }
 
-.element.stardust input {
-    color: #8e24aa;
-    border: 1px solid #8e24aa;
-}
+        .element.stardust input {
+            color: #8e24aa;
+            border: 1px solid #8e24aa;
+        }
     </style>
 </head>
 <body>
@@ -201,7 +214,7 @@
         <!-- Fire -->
         <div class="element fire">
             <div class="grid-item">
-                <div class="element-name">Fire (d6)</div>
+                <div class="element-name">Fire d6</div>
                 <div class="input-group">
                     <button onclick="decrement('fire-d6')">-</button>
                     <input id="fire-d6" type="number" value="0" min="0">
@@ -211,7 +224,7 @@
         </div>
         <div class="element fire">
             <div class="grid-item">
-                <div class="element-name">Fire (d8)</div>
+                <div class="element-name">Fire d8</div>
                 <div class="input-group">
                     <button onclick="decrement('fire-d8')">-</button>
                     <input id="fire-d8" type="number" value="0" min="0">
@@ -221,7 +234,7 @@
         </div>
         <div class="element fire">
             <div class="grid-item">
-                <div class="element-name">Fire (d12)</div>
+                <div class="element-name">Fire d12</div>
                 <div class="input-group">
                     <button onclick="decrement('fire-d12')">-</button>
                     <input id="fire-d12" type="number" value="0" min="0">
@@ -233,7 +246,7 @@
         <!-- Water -->
         <div class="element water">
             <div class="grid-item">
-                <div class="element-name">Water (d6)</div>
+                <div class="element-name">Water d6</div>
                 <div class="input-group">
                     <button onclick="decrement('water-d6')">-</button>
                     <input id="water-d6" type="number" value="0" min="0">
@@ -243,7 +256,7 @@
         </div>
         <div class="element water">
             <div class="grid-item">
-                <div class="element-name">Water (d8)</div>
+                <div class="element-name">Water d8</div>
                 <div class="input-group">
                     <button onclick="decrement('water-d8')">-</button>
                     <input id="water-d8" type="number" value="0" min="0">
@@ -253,7 +266,7 @@
         </div>
         <div class="element water">
             <div class="grid-item">
-                <div class="element-name">Water (d12)</div>
+                <div class="element-name">Water d12</div>
                 <div class="input-group">
                     <button onclick="decrement('water-d12')">-</button>
                     <input id="water-d12" type="number" value="0" min="0">
@@ -265,7 +278,7 @@
         <!-- Green -->
         <div class="element green">
             <div class="grid-item">
-                <div class="element-name">Green (d6)</div>
+                <div class="element-name">Green d6</div>
                 <div class="input-group">
                     <button onclick="decrement('green-d6')">-</button>
                     <input id="green-d6" type="number" value="0" min="0">
@@ -275,7 +288,7 @@
         </div>
         <div class="element green">
             <div class="grid-item">
-                <div class="element-name">Green (d8)</div>
+                <div class="element-name">Green d8</div>
                 <div class="input-group">
                     <button onclick="decrement('green-d8')">-</button>
                     <input id="green-d8" type="number" value="0" min="0">
@@ -285,7 +298,7 @@
         </div>
         <div class="element green">
             <div class="grid-item">
-                <div class="element-name">Green (d12)</div>
+                <div class="element-name">Green d12</div>
                 <div class="input-group">
                     <button onclick="decrement('green-d12')">-</button>
                     <input id="green-d12" type="number" value="0" min="0">
@@ -297,7 +310,7 @@
         <!-- Stardust -->
         <div class="element stardust">
             <div class="grid-item">
-                <div class="element-name">Stardust (d6)</div>
+                <div class="element-name">Stardust d6</div>
                 <div class="input-group">
                     <button onclick="decrement('stardust-d6')">-</button>
                     <input id="stardust-d6" type="number" value="0" min="0">
@@ -307,7 +320,7 @@
         </div>
         <div class="element stardust">
             <div class="grid-item">
-                <div class="element-name">Stardust (d8)</div>
+                <div class="element-name">Stardust d8</div>
                 <div class="input-group">
                     <button onclick="decrement('stardust-d8')">-</button>
                     <input id="stardust-d8" type="number" value="0" min="0">
@@ -317,7 +330,7 @@
         </div>
         <div class="element stardust">
             <div class="grid-item">
-                <div class="element-name">Stardust (d12)</div>
+                <div class="element-name">Stardust d12</div>
                 <div class="input-group">
                     <button onclick="decrement('stardust-d12')">-</button>
                     <input id="stardust-d12" type="number" value="0" min="0">
@@ -328,7 +341,7 @@
     </div>
 
     <button class="calculate-btn" onclick="calculate()">Calculate</button>
-      <!-- Output placeholders -->
+    <!-- Output placeholders -->
     <div class="output">
         <h3>Results</h3>
         <p id="result1">Result 1: --</p>
@@ -444,7 +457,7 @@
             result1: result1,
             result2: result2
         }
-        let calculation = { ...results, ...values };
+        let calculation = {...results, ...values};
 
         // Add to history (keep only the last 10)
         history.unshift(calculation);
