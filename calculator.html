@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Probability Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .element-name {
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group input {
+            width: 40px;
+            text-align: center;
+        }
+
+        .input-group button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .calculate-btn {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .calculate-btn:hover {
+            background-color: #218838;
+        }
+
+        .history {
+            margin-top: 20px;
+        }
+
+        .history ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .history li {
+            background-color: #f8f9fa;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+
+        .history li:nth-child(odd) {
+            background-color: #e9ecef;
+        }
+
+        .history h3 {
+            margin-bottom: 10px;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .output p {
+            margin: 5px 0;
+        }
+        .element {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* Styling Fire elements */
+.element.fire {
+    border-color: #e57373; /* Light Red border */
+    background-color: #ffebee;
+}
+
+.element.fire label {
+    color: #d32f2f; /* Darker red for text */
+}
+
+.element.fire input {
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}
+
+/* Styling Water elements */
+.element.water {
+    border-color: #64b5f6; /* Light Blue border */
+    background-color: #e3f2fd;
+}
+
+.element.water label {
+    color: #1976d2; /* Darker blue for text */
+}
+
+.element.water input {
+    color: #1976d2;
+    border: 1px solid #1976d2;
+}
+
+/* Styling Green elements */
+.element.green {
+    border-color: #81c784; /* Light Green border */
+    background-color: #e8f5e9;
+}
+
+.element.green label {
+    color: #388e3c; /* Darker green for text */
+}
+
+.element.green input {
+    color: #388e3c;
+    border: 1px solid #388e3c;
+}
+
+/* Styling Stardust elements */
+.element.stardust {
+    border-color: #ba68c8; /* Light Purple border */
+    background-color: #f3e5f5;
+}
+
+.element.stardust label {
+    color: #8e24aa; /* Darker purple for text */
+}
+
+.element.stardust input {
+    color: #8e24aa;
+    border: 1px solid #8e24aa;
+}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dice Probability Calculator</h1>
+    <div class="grid">
+        <!-- Fire -->
+        <div class="element fire">
+            <div class="grid-item">
+                <div class="element-name">Fire (d6)</div>
+                <div class="input-group">
+                    <button onclick="decrement('fire-d6')">-</button>
+                    <input id="fire-d6" type="number" value="0" min="0">
+                    <button onclick="increment('fire-d6')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element fire">
+            <div class="grid-item">
+                <div class="element-name">Fire (d8)</div>
+                <div class="input-group">
+                    <button onclick="decrement('fire-d8')">-</button>
+                    <input id="fire-d8" type="number" value="0" min="0">
+                    <button onclick="increment('fire-d8')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element fire">
+            <div class="grid-item">
+                <div class="element-name">Fire (d12)</div>
+                <div class="input-group">
+                    <button onclick="decrement('fire-d12')">-</button>
+                    <input id="fire-d12" type="number" value="0" min="0">
+                    <button onclick="increment('fire-d12')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Water -->
+        <div class="element water">
+            <div class="grid-item">
+                <div class="element-name">Water (d6)</div>
+                <div class="input-group">
+                    <button onclick="decrement('water-d6')">-</button>
+                    <input id="water-d6" type="number" value="0" min="0">
+                    <button onclick="increment('water-d6')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element water">
+            <div class="grid-item">
+                <div class="element-name">Water (d8)</div>
+                <div class="input-group">
+                    <button onclick="decrement('water-d8')">-</button>
+                    <input id="water-d8" type="number" value="0" min="0">
+                    <button onclick="increment('water-d8')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element water">
+            <div class="grid-item">
+                <div class="element-name">Water (d12)</div>
+                <div class="input-group">
+                    <button onclick="decrement('water-d12')">-</button>
+                    <input id="water-d12" type="number" value="0" min="0">
+                    <button onclick="increment('water-d12')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Green -->
+        <div class="element green">
+            <div class="grid-item">
+                <div class="element-name">Green (d6)</div>
+                <div class="input-group">
+                    <button onclick="decrement('green-d6')">-</button>
+                    <input id="green-d6" type="number" value="0" min="0">
+                    <button onclick="increment('green-d6')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element green">
+            <div class="grid-item">
+                <div class="element-name">Green (d8)</div>
+                <div class="input-group">
+                    <button onclick="decrement('green-d8')">-</button>
+                    <input id="green-d8" type="number" value="0" min="0">
+                    <button onclick="increment('green-d8')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element green">
+            <div class="grid-item">
+                <div class="element-name">Green (d12)</div>
+                <div class="input-group">
+                    <button onclick="decrement('green-d12')">-</button>
+                    <input id="green-d12" type="number" value="0" min="0">
+                    <button onclick="increment('green-d12')">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stardust -->
+        <div class="element stardust">
+            <div class="grid-item">
+                <div class="element-name">Stardust (d6)</div>
+                <div class="input-group">
+                    <button onclick="decrement('stardust-d6')">-</button>
+                    <input id="stardust-d6" type="number" value="0" min="0">
+                    <button onclick="increment('stardust-d6')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element stardust">
+            <div class="grid-item">
+                <div class="element-name">Stardust (d8)</div>
+                <div class="input-group">
+                    <button onclick="decrement('stardust-d8')">-</button>
+                    <input id="stardust-d8" type="number" value="0" min="0">
+                    <button onclick="increment('stardust-d8')">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="element stardust">
+            <div class="grid-item">
+                <div class="element-name">Stardust (d12)</div>
+                <div class="input-group">
+                    <button onclick="decrement('stardust-d12')">-</button>
+                    <input id="stardust-d12" type="number" value="0" min="0">
+                    <button onclick="increment('stardust-d12')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="calculate-btn" onclick="calculate()">Calculate</button>
+      <!-- Output placeholders -->
+    <div class="output">
+        <h3>Results</h3>
+        <p id="result1">Result 1: --</p>
+        <p id="result2">Result 2: --</p>
+    </div>
+
+    <!-- History of calculations -->
+    <div class="history">
+        <h3>Calculations history</h3>
+        <ul id="history-list">
+            <!-- List of previous calculations will appear here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    function increment(id) {
+        let input = document.getElementById(id);
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decrement(id) {
+        let input = document.getElementById(id);
+        if (parseInt(input.value) > 0) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+
+    // Probabilities for each ingredient and dice type
+    const probabilities = {
+        fireD6: 2 / 6,
+        fireD8: 2 / 8,
+        fireD12: 2 / 12,
+        waterD6: 1 / 6,
+        waterD8: 1 / 8,
+        waterD12: 1 / 12,
+        greenD6: 1 / 6,
+        greenD8: 1 / 8,
+        greenD12: 1 / 12,
+        stardustD6: 3 / 6,
+        stardustD8: 3 / 8,
+        stardustD12: 3 / 12
+    };
+
+    // Function to calculate the success probability (binomial coefficient formula)
+    function successProb(n, k, successProb) {
+        const failureProb = 1 - successProb;
+
+        // Binomial coefficient calculation
+        function binomCoeff(n, k) {
+            if (k === 0 || k === n) return 1;
+            if (n === 0) return 0;
+            let coeff = 1;
+            for (let i = 1; i <= k; i++) {
+                coeff *= (n - (k - i)) / i;
+            }
+            return coeff;
+        }
+
+        return binomCoeff(n, k) * (Math.pow(successProb, k)) * (Math.pow(failureProb, n - k));
+    }
+
+    // Function to calculate probabilities of rolling none or one success
+    function noneOrOne(data) {
+        // Calculate P(0) - the probability of no successes
+        let p_0 = Object.keys(data).reduce((product, key) => {
+            return product * successProb(data[key], 0, probabilities[key]);
+        }, 1);
+
+        // Calculate P(1) - the probability of exactly one success
+        let p_1 = 0;
+        Object.keys(data).forEach((key, i) => {
+            p_1 += Object.keys(data).reduce((product, innerKey, j) => {
+                return product * successProb(data[innerKey], (i === j ? 1 : 0), probabilities[innerKey]);
+            }, 1);
+        });
+
+        // Return both probabilities
+        return [p_0, p_0 + p_1];
+    }
+
+    let history = [];
+
+    function calculate() {
+        let values = {
+            fireD6: Number(document.getElementById("fire-d6").value),
+            fireD8: Number(document.getElementById("fire-d8").value),
+            fireD12: Number(document.getElementById("fire-d12").value),
+            waterD6: Number(document.getElementById("water-d6").value),
+            waterD8: Number(document.getElementById("water-d8").value),
+            waterD12: Number(document.getElementById("water-d12").value),
+            greenD6: Number(document.getElementById("green-d6").value),
+            greenD8: Number(document.getElementById("green-d8").value),
+            greenD12: Number(document.getElementById("green-d12").value),
+            stardustD6: Number(document.getElementById("stardust-d6").value),
+            stardustD8: Number(document.getElementById("stardust-d8").value),
+            stardustD12: Number(document.getElementById("stardust-d12").value)
+        };
+
+        // Placeholder for actual calculation logic
+        let calcResults = noneOrOne(values)
+
+        // Convert results to percentages
+        result1 = (calcResults[0] * 100).toFixed(2);
+        result2 = (calcResults[1] * 100).toFixed(2);
+
+        // Update results on the page with color grading
+        document.getElementById("result1").innerHTML = `Result 1: <span style="color:${getColor(result1)};">${result1}%</span>`;
+        document.getElementById("result2").innerHTML = `Result 2: <span style="color:${getColor(result2)};">${result2}%</span>`;
+
+        // Save the inputs and results to the history
+        let results = {
+            result1: result1,
+            result2: result2
+        }
+        let calculation = { ...results, ...values };
+
+        // Add to history (keep only the last 10)
+        history.unshift(calculation);
+        if (history.length > 6) {
+            history.pop();
+        }
+
+        // Display the history
+        let historyList = document.getElementById("history-list");
+        historyList.innerHTML = '';  // Clear previous entries
+        history.forEach((entry, index) => {
+            let listItem = document.createElement("li");
+            let diceText = '';
+
+            // Add only non-zero dice counts to the text
+            if (entry.fireD6 > 0) diceText += `Fire d6: ${entry.fireD6}, `;
+            if (entry.fireD8 > 0) diceText += `Fire d8: ${entry.fireD8}, `;
+            if (entry.fireD12 > 0) diceText += `Fire d12: ${entry.fireD12}, `;
+            if (entry.waterD6 > 0) diceText += `Water d6: ${entry.waterD6}, `;
+            if (entry.waterD8 > 0) diceText += `Water d8: ${entry.waterD8}, `;
+            if (entry.waterD12 > 0) diceText += `Water d12: ${entry.waterD12}, `;
+            if (entry.greenD6 > 0) diceText += `Green d6: ${entry.greenD6}, `;
+            if (entry.greenD8 > 0) diceText += `Green d8: ${entry.greenD8}, `;
+            if (entry.greenD12 > 0) diceText += `Green d12: ${entry.greenD12}, `;
+            if (entry.stardustD6 > 0) diceText += `Stardust d6: ${entry.stardustD6}, `;
+            if (entry.stardustD8 > 0) diceText += `Stardust d8: ${entry.stardustD8}, `;
+            if (entry.stardustD12 > 0) diceText += `Stardust d12: ${entry.stardustD12}, `;
+
+            // Remove the trailing comma and space
+            diceText = diceText.slice(0, -2);
+
+            // Add the results
+            resText = `Result 1: <span style="color:${getColor(entry.result1)};">${entry.result1}%</span>, Result 2: <span style="color:${getColor(entry.result2)};">${entry.result2}%</span> | `;
+            resText += diceText
+            listItem.innerHTML = `#${index + 1}: ${resText}`;
+            historyList.appendChild(listItem);
+        });
+    }
+
+    // Function to return color based on the percentage (red for low, green for high)
+    function getColor(value) {
+        value = parseFloat(value);
+        if (value < 45) return '#ff4d4d';    // Red for low probability (< 45%)
+        else if (value < 80) return '#ffa500';  // Orange for medium probability (45% - 80%)
+        else return '#4caf50';  // Green for high probability (>= 80%)
+    }
+</script>
+
+</body>
+</html>
