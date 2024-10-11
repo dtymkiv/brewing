@@ -117,7 +117,7 @@
             margin-bottom: 8px;
             padding: 10px;
             border-radius: 5px;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             font-size: 14px;
         }
 
@@ -204,12 +204,155 @@
             color: #8e24aa;
             border: 1px solid #8e24aa;
         }
+
+        /* Panel-like container */
+        .simulation-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Styling for the dropdown select */
+        .simulation-panel select {
+            margin-bottom: 15px;
+            margin-right: 20px;
+            padding: 8px;
+            font-size: 1rem;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            background-color: white;
+            max-width: 200px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Styling the simulate button */
+        .simulation-panel .simulate-btn {
+            max-width: 200px;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .simulation-panel .simulate-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Grid layout for dice results */
+        .dice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+            gap: 15px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* Dice container styling */
+        .dice-container {
+            position: relative; /* Set position to relative to position checkbox */
+            display: flex;
+            justify-content: center; /* Center the content inside */
+            align-items: center; /* Center vertically */
+            width: 60px;
+            height: 60px; /* Keep height and width equal for square shape */
+            border-radius: 8px; /* Rounded corners */
+            margin-bottom: 10px;
+            padding: 5px; /* Padding to add some space inside the container */
+            background-color: #fff; /* Background color for dice */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        }
+
+        /* Grid layout for the contents inside the dice container */
+        .dice-content {
+            display: grid;
+            grid-template-rows: 1fr auto; /* Two rows: one for label and one for roll number */
+            justify-items: center; /* Center items in the grid */
+        }
+
+        /* Color coding for each dice type */
+        .dice-container.fire {
+            border: 2px solid #d32f2f;
+            background-color: #ffebee;
+        }
+
+        .dice-container.water {
+            border: 2px solid #1976d2;
+            background-color: #e3f2fd;
+        }
+
+        .dice-container.green {
+            border: 2px solid #388e3c;
+            background-color: #e8f5e9;
+        }
+
+        .dice-container.stardust {
+            border: 2px solid #8e24aa;
+            background-color: #f3e5f5;
+        }
+
+        /* Label for the dice type (d6, d8, d12) */
+        .dice-label {
+            font-size: 0.9rem; /* Adjusted size for better fitting */
+            font-weight: normal;
+        }
+
+        /* Roll number styling */
+        .roll-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        /* Checkbox styling */
+        .dice-checkbox {
+            position: absolute; /* Position checkbox absolutely */
+            bottom: -25px; /* Move it outside the square */
+            transform: translateX(-50%) !important; /* Center it correctly */
+            transform: scale(1.2) !important; /* Slightly larger checkbox for easier clicking */
+        }
+
+        /* Reroll button styling */
+        .reroll-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .reroll-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Winning message styling */
+        #bombs-message {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Dice Probability Calculator</h1>
+    <h1>Brewing Calculator</h1>
     <div class="grid">
         <!-- Fire -->
         <div class="element fire">
@@ -340,12 +483,34 @@
         </div>
     </div>
 
-    <button class="calculate-btn" onclick="calculate()">Calculate</button>
+    <button class="calculate-btn" onclick="calculate()">Calculate chances</button>
     <!-- Output placeholders -->
     <div class="output">
-        <h3>Results</h3>
-        <p id="result1">Result 1: --</p>
-        <p id="result2">Result 2: --</p>
+        <h3>Success chances</h3>
+        <p id="result1">0 Bombs: --</p>
+        <p id="result2">1 Bomb: --</p>
+    </div>
+
+    <div class="simulation-panel">
+        <div class="sim-settings-holder">
+            <!-- Dropdown to select probability to compare (0 bombs or 1 bomb) -->
+            <label for="probability-select"></label>
+            <select id="probability-select">
+                <option value="0">0 Bombs Allowed</option>
+                <option value="1">1 Bomb Allowed</option>
+            </select>
+            <!-- New button to simulate dice roll -->
+            <button class="simulate-btn" onclick="simulateDiceRoll()">Simulate Dice Roll</button>
+        </div>
+
+        <!-- Output area for the dice roll results -->
+        <div id="dice-roll-result" class="dice-grid">
+            <!-- Dice rolls will be displayed here in a grid -->
+        </div>
+        <button class="reroll-btn" id="reroll-btn" onclick="rerollSelectedDice()" style="display: none;">Reroll Selected
+            Dice
+        </button>
+        <p id="bombs-message"></p>
     </div>
 
     <!-- History of calculations -->
@@ -425,7 +590,18 @@
 
     let history = [];
 
+    function clearDiceRoll() {
+
+        document.getElementById("dice-roll-result").innerHTML = ''; // Clear previous dice rolls
+        document.getElementById("reroll-btn").style.display = "none"; // hide reroll button
+        document.getElementById("bombs-message").innerHTML = ''; // clear message
+
+    }
+
     function calculate() {
+
+        clearDiceRoll()
+
         let values = {
             fireD6: Number(document.getElementById("fire-d6").value),
             fireD8: Number(document.getElementById("fire-d8").value),
@@ -449,8 +625,8 @@
         result2 = (calcResults[1] * 100).toFixed(2);
 
         // Update results on the page with color grading
-        document.getElementById("result1").innerHTML = `Result 1: <span style="color:${getColor(result1)};">${result1}%</span>`;
-        document.getElementById("result2").innerHTML = `Result 2: <span style="color:${getColor(result2)};">${result2}%</span>`;
+        document.getElementById("result1").innerHTML = `0 Bombs: <span style="color:${getColor(result1)};">${result1}%</span>`;
+        document.getElementById("result2").innerHTML = `1 Bomb: <span style="color:${getColor(result2)};">${result2}%</span>`;
 
         // Save the inputs and results to the history
         let results = {
@@ -490,11 +666,154 @@
             diceText = diceText.slice(0, -2);
 
             // Add the results
-            resText = `Result 1: <span style="color:${getColor(entry.result1)};">${entry.result1}%</span>, Result 2: <span style="color:${getColor(entry.result2)};">${entry.result2}%</span> | `;
+            resText = `0 Bombs: <span style="color:${getColor(entry.result1)};">${entry.result1}%</span>, 1 Bomb: <span style="color:${getColor(entry.result2)};">${entry.result2}%</span> | `;
             resText += diceText
             listItem.innerHTML = `#${index + 1}: ${resText}`;
             historyList.appendChild(listItem);
         });
+    }
+
+    // Roll a single die (returns a random number based on the number of sides)
+    function rollDie(sides) {
+        return Math.floor(Math.random() * sides) + 1;
+    }
+
+    // Check if a roll is a failure based on the die type and the rolled number
+    function isFail(dieType, roll) {
+        const failNumbers = {
+            fire: [1, 2],
+            water: [1],
+            green: [1],
+            stardust: [1, 2, 3]
+        };
+        return failNumbers[dieType].includes(roll);
+    }
+
+    // Function to simulate rolling multiple dice and display the results
+    function simulateDiceRoll() {
+        // Check if there are any entries in history
+        if (history.length === 0) {
+            alert("No previous calculations available.");
+            return;
+        }
+
+        // Get the most recent entry from history
+        const lastEntry = history[0];
+
+        // Extract values from the last entry
+        const diceCounts = {
+            fireD6: Number(lastEntry.fireD6),
+            fireD8: Number(lastEntry.fireD8),
+            fireD12: Number(lastEntry.fireD12),
+            waterD6: Number(lastEntry.waterD6),
+            waterD8: Number(lastEntry.waterD8),
+            waterD12: Number(lastEntry.waterD12),
+            greenD6: Number(lastEntry.greenD6),
+            greenD8: Number(lastEntry.greenD8),
+            greenD12: Number(lastEntry.greenD12),
+            stardustD6: Number(lastEntry.stardustD6),
+            stardustD8: Number(lastEntry.stardustD8),
+            stardustD12: Number(lastEntry.stardustD12)
+        };
+
+        // Clear previous results
+        const resultContainer = document.getElementById("dice-roll-result");
+        resultContainer.innerHTML = '';
+
+        // Dice configuration based on last entry
+        const dice = [
+            {type: "fire", sides: 6, count: diceCounts.fireD6},
+            {type: "fire", sides: 8, count: diceCounts.fireD8},
+            {type: "fire", sides: 12, count: diceCounts.fireD12},
+            {type: "water", sides: 6, count: diceCounts.waterD6},
+            {type: "water", sides: 8, count: diceCounts.waterD8},
+            {type: "water", sides: 12, count: diceCounts.waterD12},
+            {type: "green", sides: 6, count: diceCounts.greenD6},
+            {type: "green", sides: 8, count: diceCounts.greenD8},
+            {type: "green", sides: 12, count: diceCounts.greenD12},
+            {type: "stardust", sides: 6, count: diceCounts.stardustD6},
+            {type: "stardust", sides: 8, count: diceCounts.stardustD8},
+            {type: "stardust", sides: 12, count: diceCounts.stardustD12}
+        ];
+
+        let bombCount = 0; // Count of bombs rolled
+
+        // Roll each die and display the result
+        dice.forEach(die => {
+            // Roll the dice according to its count
+            for (let i = 0; i < die.count; i++) {
+                const roll = rollDie(die.sides); // Roll the die
+                const isFailedRoll = isFail(die.type, roll); // Check if it's a fail
+
+                // Increment bomb count if roll is a fail
+                if (isFailedRoll) bombCount++;
+
+                // Create the dice result element
+                const diceElement = document.createElement("div");
+                diceElement.classList.add("dice-result");
+
+                // Set up the colored container and roll result
+                diceElement.innerHTML = `
+                    <div class="dice-container ${die.type}">
+                        <div class="dice-content">
+                            <span class="dice-label">${die.sides}</span>
+                            <span class="roll-number" style="color: ${isFailedRoll ? 'red' : 'green'};">
+                                ${roll}
+                            </span>
+                        </div>
+                        <input type="checkbox" class="dice-checkbox" />
+                    </div>
+                `;
+
+                // Append the dice result to the container
+                resultContainer.appendChild(diceElement);
+            }
+        });
+
+        // Display the bomb count message
+        const allowedBombs = document.getElementById("probability-select").value;
+        updateBombsMessage(bombCount, allowedBombs);
+
+        // Show the reroll button after rolling the dice
+        document.getElementById("reroll-btn").style.display = "block"; // Show reroll button
+
+    }
+
+    // Function to update winning message based on bomb count
+    function updateBombsMessage(bombCount, allowedBombs) {
+        const bombsMessage = document.getElementById("bombs-message");
+        bombsMessage.style.color = bombCount <= allowedBombs ? 'green' : 'red';
+        bombsMessage.textContent = `Total Bombs Rolled: ${bombCount}. ` +
+            (bombCount <= allowedBombs ? "You won!" : "You lost!");
+    }
+
+    // Function to reroll selected dice
+    function rerollSelectedDice() {
+        const selectedDice = document.querySelectorAll('.dice-checkbox:checked');
+        let bombCount = 0; // Reset bomb count for reroll
+
+        selectedDice.forEach((checkbox) => {
+            // Get the parent dice container of the checkbox
+            const diceContainer = checkbox.closest('.dice-container');
+            const rollLabel = diceContainer.querySelector('.roll-number');
+            const sidesLabel = diceContainer.querySelector('.dice-label').textContent;
+            const type = diceContainer.classList[1]; // Get the type (fire, water, etc.)
+
+            // Roll the die again
+            const roll = rollDie(sidesLabel); // sidesLabel is the sides number (d6, d8, d12)
+            const isFailedRoll = isFail(type, roll); // Check if it's a fail
+
+            // Update the roll number display
+            rollLabel.textContent = roll;
+            rollLabel.style.color = isFailedRoll ? 'red' : 'green';
+
+            // Increment bomb count if rerolled value is a fail
+            if (isFailedRoll) bombCount++;
+        });
+
+        // Update the winning message based on the new bomb count
+        const allowedBombs = document.getElementById("probability-select").value;
+        updateBombsMessage(bombCount, allowedBombs);
     }
 
     // Function to return color based on the percentage (red for low, green for high)
